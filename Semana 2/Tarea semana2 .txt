@@ -1,0 +1,131 @@
+// Ejercicio #1 
+Inicio
+
+    definir precio_producto = 0
+    definir descuento = 0
+    definir precio_final = 0
+
+    mostrar "Introduzca el precio del articulo"
+    pedir precio_producto
+
+    if(precio_producto < 100 ){
+        descuento = precio_producto * 0.02
+        precio_final = precio_producto - descuento
+    }else 
+    if(precio_producto >= 100){
+        descuento = precio_producto * 0.1
+     precio_final = precio_producto - descuento
+    }
+    mostrar "El precio final es: " precio_final
+
+Fin 
+
+// Ejercicio #2
+Inicio 
+    
+    definir tiempo_de_comparacion = 600    //60s * 10min =600
+    definir tiempo_usuario = 0
+    definir mensaje_final = ""
+
+    if(tiempo_usuario < tiempo_de_comparacion){
+        mensaje_final = (tiempo_de_comparacion - tiempo_usuario)
+    }
+    if(tiempo_usuario > tiempo_de_comparacion){
+        mensaje_final = "Mayor"
+    }
+
+    // El escenario en el cual el tiempo_usuario == tiempo_de_comparacion no se especifica en el requerimiento, por tanto queda out of scope
+
+    mostrar mensaje_final
+
+Fin 
+
+// Ejercicio #3
+Inicio
+
+    definir numero_usuario =0
+    definir iterador = 0
+
+    mostrar "Ingrese el número"
+    pedir numero_usuario
+
+    while (iterador ≤ numero_usuario){
+        iterador = iterador + 1
+    }
+
+    mostrar "El resultado final es: " iterador 
+
+Fin 
+
+
+// Ejercicio extra 1
+Inicio
+
+    definir primero = 0 
+    definir segundo = 0 
+    definir comodin = 0
+
+    mostrar "Ingrese el primer valor"
+    pedir primero
+    mostrar "Ingrese el segundo valor"
+    pedir segundo 
+
+
+    if(segundo < primero){    
+        comodin = segundo     
+        segundo = primero     
+        primero = comodin     
+    }
+    // si la condicion anterior no se cumple, significa que: el primer valor 
+    // es menor que el segundo, por lo tanto ya estarían en el orden correcto 
+    // o que ambos valores son el mismo, por tanto es irrelevante su orden 
+
+
+    mostrar "A: " primero ", B: " segundo
+Fin
+
+
+// Ejercicio extra 2
+Inicio 
+
+    definir velocidad = 0
+    //1 km == 1000m
+    //1 hora == 60 minutos * 60 segundos = 3600s
+
+    definir metros = 0
+
+    mostrar "Ingrese la velocidad en Kilometros por hora"
+    pedir velocidad
+    
+    metros = velocidad * 1000 / 3600
+
+    mostrar "La velocidad es " metros " m/s"
+
+Fin
+
+
+// Ejercicio extra 3
+Inicio 
+
+    definir sexo = 0
+    definir cantidad_personas = 0
+    definir contador_mujeres = 0
+    definir contador_hombres = 0
+
+    mostrar "Ingrese el sexo de las 6 personas, ingresando 1 si es mujer o 2 si es hombre"
+
+    while(cantidad_personas < 6){
+        mostrar "Igrese el sexo de la persona # " cantidad_personas + 1
+        pedir sexo
+
+        if(sexo==1){
+            contador_mujeres++
+        }else
+        if(sexo==2){
+            contador_hombres++
+        }
+        cantidad_personas++
+    }
+    mostrar (100/6 * contador_mujeres) "% mujeres y " (100/6 * contador_hombres) "% hombres"
+    
+Fin 
