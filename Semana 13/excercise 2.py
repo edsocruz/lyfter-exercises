@@ -3,27 +3,32 @@
 
 
 def check_if_number(func):
-    def wrapper(*arg):
-        print('\n')
+    def wrapper(*arg, **kwargs):
+        no_numeric_elements = []
         for item in arg:
-            try:
-                if (float(item)):
-                    print(f'{item} is a number')
-            except ValueError as ex:
-                print(f'El argumento <{item}> no es un número, \nError: {ex}')
+            if (isinstance(item, (int, float))):
+                print(f'{item} is a number')
+            else:
+                no_numeric_elements.append(item)
+        if(no_numeric_elements.__len__!=0):
+            raise ValueError(f'El argumento <{no_numeric_elements}> no es un número, \n')
 
-        result = func(*arg)
+        result = func(*arg, **kwargs)
 
-        return result
+        return result #si hay que modificar o agregar parametros se puede poner este segundo return 
     return wrapper
 
 
 @check_if_number
 def print_numbers(*arg):
-    list_of_numbers= []
+    list_of_numbers = []
     for item in arg:
         list_of_numbers.append(item)
-    print('\nList of numbers: ',list_of_numbers)
+    print('\nList of numbers: ', list_of_numbers)
 
-print_numbers(1, '2', -3, 'dfg', 5, '600', 7, '0008', '87fds', 10, '0.0000004')
 
+if __name__ == '__main__':
+    try:
+        print_numbers(1, 2, -3, 4, 'hdfd', 5, '600', 7, '0008')
+    except Exception as ex:
+        print(f'An unexpected error occurred: {ex}')
