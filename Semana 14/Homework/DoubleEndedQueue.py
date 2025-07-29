@@ -35,10 +35,7 @@ class DoubleEnded_Queue:
         new_node.next = old_head
 
     def push_right(self, new_node=Node):  # Push right
-        current_node = self.head
-        while (current_node.next is not None):
-            current_node = current_node.next
-        current_node.next = new_node
+        self.tail.next = new_node
         self.tail = new_node
 
     def pop_left(self):  # Pop Left
