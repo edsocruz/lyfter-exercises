@@ -158,7 +158,7 @@ def bubble_with_changes_and_iterations(list_of_numbers):
         iterations += 1
         any_change = False
         for i in range(0, len(list_of_numbers)-1-j):
-            comparisons
+            comparisons+= 1
             current_element = list_of_numbers[i]
             next_element = list_of_numbers[i+1]
             if (current_element > next_element):
@@ -167,7 +167,7 @@ def bubble_with_changes_and_iterations(list_of_numbers):
                 any_change = True
                 changes += 1
         if not any_change:
-                final_print = f'\nLista ordenada: {list_of_numbers}\nIteraciones: {iterations}\nIntercambios: {changes}'
+                final_print = f'\nLista ordenada: {list_of_numbers}\nIteraciones: {iterations}\nIntercambios: {changes}\nComparaciones: {comparisons}'
                 return final_print
 
 custom_list = [5,1,2,3,4]
