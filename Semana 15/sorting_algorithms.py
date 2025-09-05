@@ -21,20 +21,17 @@ def bubble_ASC(list_of_numbers):
             return list_of_numbers
 
 # Exercise 2
-def bubble_DESC(list_of_numbers):
+def bubble_2(list_of_numbers):
     list_length = len(list_of_numbers)
     for j in range(list_length-1, 0, -1):
         any_change = False
         for i in range(list_length-1, list_length-j-1, -1):
             current_element = list_of_numbers[i]
             previous_element = list_of_numbers[i-1]
-            # output = f'[{j}]->{list_of_numbers[i]} [{i+1}]->{list_of_numbers[i+1]}'
-            if (current_element > previous_element):
-                # output += ' acá hubo cambio'
+            if (current_element < previous_element):
                 list_of_numbers[i] = previous_element
                 list_of_numbers[i-1] = current_element
                 any_change = True
-            # print(output)
         if not any_change:
             break
     return list_of_numbers
@@ -47,8 +44,8 @@ result_ASC = bubble_ASC(custom_list)
 print("ASC -> ", result_ASC, '\n')
 
 print('Exercise 2')
-result_DESC = bubble_DESC(custom_list)
-print("DES -> ", result_DESC)
+result_DESC = bubble_2(custom_list)
+print("Sorted -> ", result_DESC)
 
 
 print('\nExercise extra 1')
