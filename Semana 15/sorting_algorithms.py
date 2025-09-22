@@ -18,7 +18,8 @@ def bubble_ASC(list_of_numbers):
                 list_of_numbers[i+1] = current_element
                 any_change = True
         if not any_change:
-            return list_of_numbers
+            break
+    return list_of_numbers
 
 # Exercise 2
 def bubble_2(list_of_numbers):
