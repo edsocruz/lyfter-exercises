@@ -1,0 +1,11 @@
+id,type,title,amount,category,date
+1,Gasto,Seguro médico,55000,Salud,11/12/2025
+2,Gasto,Gym,22000,Salud,11/12/2025
+3,Ingreso,Arroz,2500,Casa,12/3/2025
+4,Ingreso,Reembolso seguro,53800,Salud,21/4/2025
+5,Gasto,Carro ,100000,Ahorro,22/5/2025
+6,Ingreso,Venta libro,10500,Novia,8/6/2025
+7,Gasto,Regalo,24000,Novia,8/1/2025
+8,Gasto,Medicamentos,17900,Cuidado personal,19/2/2025
+31,Ingreso,Venta de pan,57000,Comida,16/12/2025
+32,Gasto,Vacunas,10000,Mascota,8/12/2025
