@@ -1,5 +1,6 @@
 from src.logic.category import Category
 from src.data.data_counters import load_id_counters_info, save_id_counters
+from datetime import datetime
 
 
 class Transaction:
@@ -26,6 +27,30 @@ class Transaction:
         else:
             self.id = self.get_next_id_counter()
             self.update_current_id_counter()
+
+        # Validate title
+        if not title.strip():
+            raise ValueError("El título no puede estar vacío o contener solo espacios.")
+        
+        # Validate type
+        if not type.strip():
+            raise ValueError("El tipo no puede estar vacío o contener solo espacios.")
+
+        # Validate amount
+        if not isinstance(amount, (int, float)) or amount <= 0:
+            raise ValueError("El monto debe ser numérico y mayor que cero.")
+
+        # Validate category
+        if not category or not str(category).strip():
+            raise ValueError("La categoría no puede estar vacía.")
+
+        # Validate date
+        if date is not None and isinstance(date, str):
+            try:
+                date = datetime.strptime(date, "%d/%m/%Y").date()
+            except ValueError:
+                raise ValueError("La fecha debe tener el formato DD-MM-YYYY.")
+
         self.type = type
         self.title = title
         self.amount = amount 

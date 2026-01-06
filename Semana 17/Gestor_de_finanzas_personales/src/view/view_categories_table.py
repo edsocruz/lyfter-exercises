@@ -3,7 +3,7 @@ from src.logic.category import Category
 from src.data.data_category import convert_from_object_to_dictionary_category,save_categories_info, load_categories_info, convert_from_dictionary_to_object_category, get_categories_info
 
 
-def show_categories_list():
+def view_show_categories_list():
     table_data = get_categories_info()
 
     # Declarar los elementos
@@ -26,7 +26,7 @@ def show_categories_list():
         elif event == "Agregar categoría":
             list_of_dict_categories = load_categories_info()
             list_categories = convert_from_dictionary_to_object_category(list_of_dict_categories)
-            add_category(list_categories)
+            view_add_category(list_categories)
             #Update the table with the new category
             table_data = get_categories_info()
             window['-categories table-'].update(table_data)
@@ -34,7 +34,7 @@ def show_categories_list():
     window.close()
 
 
-def add_category(list_categories=list):
+def view_add_category(list_categories=list):
 
     # Declarar los elementos
     layout = [

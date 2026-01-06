@@ -20,8 +20,7 @@ def convert_from_object_to_dictionary_transaction(list_of_objects_transactions=[
             amount = item.amount
             # Here we must save only the category name, otherwise it'll save the object memory location
             category = item.category.name
-            # Acá luego debo ver como guardar la fecha en formato dd/mm/yyyy y no guardar la hora
-            date = item.date
+            date = item.date.strftime("%d/%m/%Y")
             list_of_dict.append({'id': id, 'type': type, 'title': title,
                                 'amount': amount, 'category': category, 'date': date})
         return list_of_dict
@@ -36,7 +35,7 @@ def convert_from_dictionary_to_object_transaction(list_of_dict=[]):
             id = int(item.get('id'))
             type = item.get('type')
             title = item.get('title')
-            amount = item.get('amount')
+            amount = int(item.get('amount'))
             category = item.get('category')
             date = item.get('date')
             list_of_objects.append(Transaction(
@@ -86,7 +85,7 @@ def get_downloads_folder():
     return downloads_folder
 
 
-def export_csv():
+def data_export_csv():
     destino = get_downloads_folder()
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -152,6 +151,3 @@ def get_transactions_info():
         return table_data
     except Exception as ex:
         print(f'ERROR - get_transactions_info: {ex}')
-
-
-    

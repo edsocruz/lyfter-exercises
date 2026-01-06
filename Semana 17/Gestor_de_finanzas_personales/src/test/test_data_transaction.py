@@ -1,9 +1,8 @@
-
 from src.logic.transaction import Transaction
 from src.logic.category import Category
 from src.data.data_transaction import convert_from_object_to_dictionary_transaction, convert_from_dictionary_to_object_transaction
 
-def test_convert_from_object_to_dictionary_category():
+def test_convert_from_object_to_dictionary_transaction():
     # arrange
     list_of_transactions = [Transaction(1,'Income','Pasteles',10000,Category('Casa'),'23/09/2025'), Transaction(2,'Spend','Gasolina',20000,Category('Transporte'),'29/09/2025')]
     result = [{'id': 1, 'type': 'Income', 'title': 'Pasteles','amount': 10000, 'category': 'Casa', 'date': '23/09/2025'},
@@ -13,7 +12,7 @@ def test_convert_from_object_to_dictionary_category():
     # assert
     assert dictionary_list == result
 
-def test_convert_from_dictionary_to_object_category():
+def test_convert_from_dictionary_to_object_transaction():
     # arrange
     list_of_dict = [{'id': 1, 'type': 'Income', 'title': 'Pasteles','amount': 10000, 'category': 'Casa', 'date': '23/09/2025'},
                 {'id': 2, 'type': 'Spend', 'title': 'Gasolina','amount': 20000, 'category': 'Transporte', 'date': '29/09/2025'}]
