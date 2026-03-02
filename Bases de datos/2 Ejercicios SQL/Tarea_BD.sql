@@ -78,7 +78,7 @@ CREATE TABLE producto_carrito(
     producto_fk INT  REFERENCES producto(id)
 );
 
-ALTER TABLE producto_carrito add cantidad_productos INT NOT NULL;1
+ALTER TABLE producto_carrito add cantidad_productos INT NOT NULL;
 
 INSERT INTO producto_carrito(carrito_fk, producto_fk,cantidad_productos) VALUES (1,1,5);
 INSERT INTO producto_carrito(carrito_fk, producto_fk,cantidad_productos) VALUES (2,2,5);
@@ -169,3 +169,72 @@ SELECT COUNT(*),* FROM productos_facturas GROUP BY producto_fk;
 SELECT * FROM factura_usuario WHERE usuarios_fk = 7;
 SELECT * FROM factura ORDER BY monto_total DESC;
 SELECT * from factura where numero_factura = 2309;
+
+
+--Ejercios extra 
+-- Parte 1 
+
+CREATE TABLE categories(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name UNIQUE NOT NULL
+); 
+
+ALTER TABLE producto add category_fk REFERENCES categories(id);
+
+INSERT into categories(name) values ('Cuidado personal');
+INSERT into categories(name) values ('Linea blanca');
+INSERT into categories(name) values ('Automovil');
+INSERT into categories(name) values ('Pintura');
+INSERT into categories(name) values ('Motocicleta');
+INSERT into categories(name) values ('Cocina');
+INSERT into categories(name) values ('Limpieza');
+INSERT into categories(name) values ('Decoracion');
+
+UPDATE producto set category_fk = 1 where id = 1;
+UPDATE producto set category_fk = 2 where id = 2;
+UPDATE producto set category_fk = 3 where id = 3;
+UPDATE producto set category_fk = 5 where id = 4;
+UPDATE producto set category_fk = 6 where id = 5;
+UPDATE producto set category_fk = 7 where id = 6;
+UPDATE producto set category_fk = 8 where id = 7;
+UPDATE producto set category_fk = 2 where id = 8;
+UPDATE producto set category_fk = 2 where id = 9;
+
+SELECT * from categories;
+SELECT * from producto;
+
+-- Parte 2 
+SELECT * from producto;
+SELECT * from producto where precio > 50000;
+SELECT * from producto where nombre LIKE 'apple';
+SELECT * from producto where nombre LIKE 'Lim%';
+SELECT * from producto order by precio desc LIMIT 5;
+
+-- Parte 3
+-- Estas 2 columnas ya habían sido agregadas en la parte 3 de los ejercicios regulares
+--alter TABLE factura add telefono varchar(16);
+--alter TABLE factura add codigo_cajero;
+
+update factura set telefono_comprador = '+50657075624' where id = 1;
+update factura set telefono_comprador = '+50688651511' where id = 2;
+update factura set telefono_comprador = '+50622652598' where id = 3;
+update factura set telefono_comprador = '+50688881214' where id = 4;
+update factura set telefono_comprador = '+50670022191' where id = 5;
+
+update factura set codigo_vendedor = 123 where id = 1;
+update factura set codigo_vendedor = 123 where id = 2;
+update factura set codigo_vendedor = 111 where id = 3;
+update factura set codigo_vendedor = 470 where id = 4;
+update factura set codigo_vendedor = 470 where id = 5;
+
+update factura set telefono_comprador = '' where id = 5;
+
+SELECT * from factura where telefono_comprador = '';
+SELECT* from factura where numero_factura = 2309;
+
+--parte 4
+alter table producto add cantidad INT NOT NULL DEFAULT 10;
+update producto set cantidad = 0 where precio <= 0;
+UPDATE producto set cantidad = 9 where id = 9;
+UPDATE producto set precio = precio + 100 where cantidad < 10;
+SELECT * FROM producto ORDER BY id ASC LIMIT 10;
