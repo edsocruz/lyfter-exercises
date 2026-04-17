@@ -83,3 +83,83 @@ SELECT c.ID, c.Name, c.Email from Customers c LEFT JOIN Rents r on c.ID = r.Cust
 
 -- 7. Obtenga todos los libros que han sido rentados y están en estado “Overdue”
 SELECT b.ID, b.Name from Books b LEFT JOIN Rents r on b.ID = r.BookID WHERE r.State = "Overdue";
+
+
+
+
+
+-- EJERCICIOS EXTRA DE JOINS 
+-- All = {1,2,3,4,5,6,7,8,9,10}
+-- Even = {2,4,6,8,10}
+-- Odd = {1,3,5,7,9}
+
+-- 1. Analice la operación de conjuntos All - Odd.
+
+-- Acá se restan los elementos de un conjunto con el otro, los elementos del lado izquierdo de la
+-- operacion se mantienen, mientras que se eliminan los elementos que coinciden en ambos y los del lado derecho
+
+-- En este caso el resultado de la consulta debería ser {2,4,6,8,10}
+
+-- Context
+CREATE TABLE Alll (ID INTEGER PRIMARY KEY AUTOINCREMENT, Number INTEGER NOT NULL);
+
+CREATE TABLE Even (ID INTEGER PRIMARY KEY AUTOINCREMENT, Number INTEGER NOT NULL);
+
+CREATE TABLE Odd (ID INTEGER PRIMARY KEY AUTOINCREMENT, Number INTEGER NOT NULL);
+
+INSERT INTO Alll ( Number) VALUES (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+INSERT INTO Even ( Number) VALUES (2),(4),(6),(8),(10);
+INSERT INTO Odd ( Number) VALUES (1),(3),(5),(7),(9);
+
+SELECT * from Alll;
+SELECT * from Even;
+SELECT * from Odd;
+
+-- Respuesta: Usaría un left Join
+--All - Odd
+SELECT a.ID as "All ID", a.Number as "All Number", o.ID as "Odd ID", o.Number as "Odd Number" 
+from Alll a left JOIN Odd o on a.Number = o.Number
+WHERE o.ID is null;
+
+-- 2. Usando las tablas de Books, Customers y Rents
+--  Obtenga el número total de veces que cada cliente ha rentado un libro
+--  Ordene de mayor a menor y limite el resultado a los 3 clientes más activos
+
+-- Acá insertamos un valor más para tener mínimo 3 registros en esta consulta
+INSERT INTO Rents (ID, BookID, CustomerID, State) VALUES
+(6, 5, 3, 'On time');
+
+SELECT 
+    c.ID as "Client ID", c.Name as "Cliente",
+    count(*) as "Libros rentados"
+from 
+    Rents r 
+JOIN Books b on b.ID = r.BookID
+LEFT JOIN Customers c on c.ID = r.CustomerID
+GROUP by c.ID, c.Name 
+ORDER BY count(*) DESC
+LIMIT 3;
+
+
+-- Genere un SELECT que devuelva lo siguiente:
+--  Nombre del cliente
+--  Nombre del libro
+--  Nombre del autor
+--  Estado del alquiler (Rents.State)
+
+
+SELECT 
+    c.Name as "Cliente",
+    b.Name as "Libro",
+    a.Name as "Autor",
+    r.State as "Estado"
+from 
+    Rents r 
+JOIN Books b on b.ID = r.BookID
+JOIN Customers c on c.ID = r.CustomerID
+LEFT JOIN Authors a on a.ID = b.Author;
+
+SELECT * from Authors;
+SELECT * from Books;
+SELECT * from Rents;
+SELECT * from Customers;
