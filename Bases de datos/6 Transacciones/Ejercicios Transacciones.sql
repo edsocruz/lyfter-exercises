@@ -59,10 +59,10 @@ INSERT INTO users(user_name, user_email) VALUES ('Leonardo Cruz', 'leonardo@gmai
 INSERT INTO users(user_name, user_email) VALUES ('Sonia Viquez', 'sonia@gmail.com');
 INSERT INTO users(user_name, user_email) VALUES ('Edgar Perez', 'edgar@gmail.com');
 
-select * from products;
-select * from users;
-select * from cart;
-select * from cart_products;
+--select * from products;
+--select * from users;
+--select * from cart;
+--select * from cart_products;
 
 
 DO $$
