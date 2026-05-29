@@ -208,7 +208,6 @@ BEGIN
 		WHEN OTHERS THEN
 		--En caso de error, revertir los cambios
 		RAISE EXCEPTION 'Error en la transacción: %', SQLERRM;
-		RAISE;
 	END;
 END $$;
 
