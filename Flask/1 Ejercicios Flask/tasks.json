@@ -1,0 +1,38 @@
+[
+    {
+        "id": "001",
+        "title": "Sacar basura",
+        "description": "Sacarla miercoles y viernes moring",
+        "state": "Por hacer"
+    },
+    {
+        "id": "002",
+        "title": "Pagar la piscina",
+        "description": "Fecha de pago, 10 de cada mes",
+        "state": "Completada"
+    },
+    {
+        "id": "003",
+        "title": "Hacer la tarea",
+        "description": "Fecha de entrega, Lunes 8am",
+        "state": "En progreso"
+    },
+    {
+        "id": "004",
+        "title": "Entradas concierto",
+        "description": "Comprar entradas para el concierto de Kiss",
+        "state": "Completada"
+    },
+    {
+        "id": "005",
+        "title": "Sacar el perro a pasear",
+        "description": "El perro se saca a las 12pm y 8pm",
+        "state": "Completada"
+    },
+    {
+        "id": "006",
+        "title": "Sacar el reciclaje",
+        "description": "El reciclaje pasa los miercoles",
+        "state": "En progreso"
+    }
+]

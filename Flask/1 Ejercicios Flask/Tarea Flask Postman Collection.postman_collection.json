@@ -1,0 +1,170 @@
+{
+  "info": {
+    "_postman_id": "afedb25e-ad6f-4e61-bfd2-36ac684e858b",
+    "name": "Tarea Flask Postman Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19513162"
+  },
+  "item": [
+    {
+      "name": "Todas las tareas",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/task",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "task"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tareas filtradas",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/task?state=Completada",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "task"
+          ],
+          "query": [
+            {
+              "key": "state",
+              "value": "Completada"
+            },
+            {
+              "key": "state",
+              "value": "Por hacer",
+              "type": "text",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Añadir tarea",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "    {\n        \"id\": \"006\",\n        \"title\": \"Sacar el reciclaje\",\n        \"description\":\"El reciclaje pasa los miercoles\",\n        \"state\":\"En progreso\"\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/add",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar tarea",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "    {\n        \"id\": \"006\",\n        \"title\": \"Sacar el reciclaje\",\n        \"description\":\"El reciclaje pasa los jueves\",\n        \"state\":\"Completada\"\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/update/006",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "update",
+            "006"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Eiliminar tarea",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/delete/006",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "delete",
+            "006"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
