@@ -28,11 +28,5 @@
         "title": "Sacar el perro a pasear",
         "description": "El perro se saca a las 12pm y 8pm",
         "state": "Completada"
-    },
-    {
-        "id": "006",
-        "title": "Sacar el reciclaje",
-        "description": "El reciclaje pasa los miercoles",
-        "state": "En progreso"
     }
 ]

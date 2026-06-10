@@ -17,6 +17,13 @@ def write_json_file(path, information):
     with open(path, 'w') as json_file:
         json.dump(information, json_file)
 
+#Custom Exceptions
+class BadRequestError(Exception):
+    pass
+
+class NotFoundError(Exception):
+    pass
+
 # Each task
 # ID
 # Title
@@ -27,9 +34,8 @@ def write_json_file(path, information):
 def root():
     return "<h1>Task Homework</h1>"
 
-
 # Read task
-@app.route("/task", methods=["GET"])
+@app.route("/tasks", methods=["GET"])
 def show_tasks():
     filtered_task = []
     # cargamos la lista a una variable
@@ -44,44 +50,50 @@ def show_tasks():
         # Si el query parameter no existe entonces devolvemos toda la lista inicial
         return {"data": filtered_task}
 
-# Validations
-# Unique IDs (/)
-# Unable to add task without name
-# Unable to add task without description
-# Unable to add task without state
-# Unable to add task with an invalid state
+
+def validate_id():
+    if "id" not in request.json:
+        raise ValueError("ID missing from the body")
+    elif not request.json["id"]:
+        raise ValueError("ID can not be empty")
+
+def validate_title():
+    if "title" not in request.json:
+        raise ValueError("Title missing from the body")
+    elif not request.json["title"]:
+        raise ValueError("Title can not be empty")
+    
+def validate_description():
+    if "description" not in request.json:
+        raise ValueError("Description missing from the body")
+    elif not request.json["description"]:
+        raise ValueError("Description can not be empty")
+    
+def validate_state():
+    if "state" not in request.json:
+        raise ValueError("State missing from the body")
+    elif not request.json["state"]:
+        raise ValueError("State can not be empty")
+    
+def validate_state_values():
+    if (request.json["state"] != "Completada") and (request.json["state"] != "Por hacer") and (request.json["state"] != "En progreso"):
+        raise BadRequestError("The only valid states for status are: 'Completada', 'Por hacer', 'En progreso'")
+        
 
 # Create task
-@app.route("/add", methods=["POST"])
+@app.route("/tasks", methods=["POST"])
 def add_task():
     try:
         id_already_created = False
         task_list = []
         task_list = read_json_file("tasks.json")
+
         #Primero se valida que estos campos existan, ya luego se accede a los valores para validarlos
-        if "id" not in request.json:
-            raise ValueError("ID missing from the body")
-        elif not request.json["id"]:
-            raise ValueError("ID can not be empty")
-        
-        if "title" not in request.json:
-            raise ValueError("Title missing from the body")
-        elif not request.json["title"]:
-            raise ValueError("Title can not be empty")
-
-        if "description" not in request.json:
-            raise ValueError("Description missing from the body")
-        elif not request.json["description"]:
-            raise ValueError("Description can not be empty")
-
-        if "state" not in request.json:
-            raise ValueError("State missing from the body")
-        elif not request.json["state"]:
-            raise ValueError("State can not be empty")
-        print(request.json["state"])
-        if (request.json["state"] != "Completada") and (request.json["state"] != "Por hacer") and (request.json["state"] != "En progreso"):
-    
-            raise ValueError("The only valid states for status are: 'Completada', 'Por hacer', 'En progreso'")
+        validate_id()
+        validate_title()
+        validate_description()
+        validate_state()
+        validate_state_values()
         
         for item in task_list:
             if item["id"] == request.json["id"]:
@@ -100,56 +112,87 @@ def add_task():
             }
         )
         write_json_file('tasks.json', task_list)
-        return {"data": task_list}
-            
+        return {"data": task_list}, 201
+
         
     except ValueError as ex:
         return jsonify(message=str(ex)), 400
     except Exception as ex:
         return jsonify(message=str(ex)), 500
 
-
-
 # Update task
-@app.route("/update/<task_id>", methods=["PATCH"])
+@app.route("/tasks/<task_id>", methods=["PATCH"])
 def update_task(task_id):
-    tasks_list = []
-    tasks_list = read_json_file("tasks.json")  # cargamos el archivo
-    task_found = None
+    try:
+        id_already_created = False
 
-    for item in tasks_list:
-        if item["id"] == task_id:
-            task_found = item
-            break
-    body = request.json
+        tasks_list = []
+        tasks_list = read_json_file("tasks.json")  # cargamos el archivo
+        task_found = None
 
-    if "id" in body:
-        task_found["id"] = body["id"]
-    if "title" in body:
-        task_found["title"] = body["title"]
-    if "description" in body:
-        task_found["description"] = body["description"]
-    if "state" in body:
-        task_found["state"] = body["state"]
+        for item in tasks_list: #validamos que el ID exista
+            if item["id"] == task_id:
+                id_already_created = True
+                task_found = item
+                break
 
-    write_json_file('tasks.json', tasks_list)
+        if not id_already_created:
+                raise NotFoundError(f"ID: {task_id} does not exist")
+        else:
+            body = request.json
 
-    return task_found
+            validate_state_values()
+
+            if "id" in body:
+                task_found["id"] = body["id"]
+            if "title" in body:
+                task_found["title"] = body["title"]
+            if "description" in body:
+                task_found["description"] = body["description"]
+            if "state" in body:
+                task_found["state"] = body["state"]
+
+            write_json_file('tasks.json', tasks_list)
+
+            return task_found
+    
+    except NotFoundError as ex:
+        return jsonify(message=str(ex)), 404
+    except BadRequestError as ex:
+        return jsonify(message=str(ex)), 400
+    except Exception as ex:
+        return jsonify(message=str(ex)), 500
+        
 
 # Delete task
-@app.route("/delete/<task_id>", methods=["DELETE"])
+@app.route("/tasks/<task_id>", methods=["DELETE"])
 def delete_task(task_id):
-    tasks_list = []
-    tasks_list = read_json_file("tasks.json")  # cargamos el archivo
+    try:
+        tasks_list = []
+        tasks_list = read_json_file("tasks.json")  # cargamos el archivo
+        id_already_created = False
 
-    for index,item in enumerate(tasks_list):
-        if item["id"] == task_id:
-            tasks_list.pop(index)
-            break
+        for item in tasks_list: #validamos que el ID exista
+            if item["id"] == task_id:
+                id_already_created = True
+                break
 
-    write_json_file('tasks.json', tasks_list)
+        if not id_already_created:
+                raise NotFoundError(f"ID: {task_id} does not exist")
+        else:
+            for index,item in enumerate(tasks_list):
+                if item["id"] == task_id:
+                    tasks_list.pop(index)
+                    break
 
-    return {"msg":"Task deleted"}, 200
+        write_json_file('tasks.json', tasks_list)
+
+        return jsonify(), 204
+    
+    except NotFoundError as ex:
+        return jsonify(message=str(ex)), 404
+    except Exception as ex:
+        return jsonify(message=str(ex)), 500
 
 
 if __name__ == "__main__":

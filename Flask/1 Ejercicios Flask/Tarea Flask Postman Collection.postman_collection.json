@@ -24,14 +24,14 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/task",
+          "raw": "http://localhost:8080/tasks",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "8080",
           "path": [
-            "task"
+            "tasks"
           ]
         }
       },
@@ -55,14 +55,14 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/task?state=Completada",
+          "raw": "http://localhost:8080/tasks?state=Completada",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "8080",
           "path": [
-            "task"
+            "tasks"
           ],
           "query": [
             {
@@ -95,14 +95,14 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/add",
+          "raw": "http://localhost:8080/tasks",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "8080",
           "path": [
-            "add"
+            "tasks"
           ]
         }
       },
@@ -115,7 +115,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "    {\n        \"id\": \"006\",\n        \"title\": \"Sacar el reciclaje\",\n        \"description\":\"El reciclaje pasa los jueves\",\n        \"state\":\"Completada\"\n    }",
+          "raw": "    {\n        \"id\": \"006\",\n        \"title\": \"Sacar el reciclaje\",\n        \"description\":\"El reciclaje pasa los jueves\",\n        \"state\":\"Por hacer\"\n    }",
           "options": {
             "raw": {
               "language": "json"
@@ -123,14 +123,14 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/update/006",
+          "raw": "http://localhost:8080/tasks/006",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "8080",
           "path": [
-            "update",
+            "tasks",
             "006"
           ]
         }
@@ -152,14 +152,14 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/delete/006",
+          "raw": "http://localhost:8080/tasks/006",
           "protocol": "http",
           "host": [
             "localhost"
           ],
           "port": "8080",
           "path": [
-            "delete",
+            "tasks",
             "006"
           ]
         }
