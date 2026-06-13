@@ -112,10 +112,19 @@ def add_task():
             }
         )
         write_json_file('tasks.json', task_list)
-        return {"data": task_list}, 201
+
+        #Acá se podría mostrar el ultimo elemento de la lista pero prefiero buscar nuevamente el 
+        # elmento que coincida con el ID que se acaba de crear, y no depender del orden de la 
+        # lista sino de los datos
+        for item in task_list: 
+            if item["id"] == request.json["id"]:
+                task_found = item
+                return {"element added": task_found}, 201
 
         
     except ValueError as ex:
+        return jsonify(message=str(ex)), 400
+    except BadRequestError as ex:
         return jsonify(message=str(ex)), 400
     except Exception as ex:
         return jsonify(message=str(ex)), 500
@@ -141,8 +150,6 @@ def update_task(task_id):
         else:
             body = request.json
 
-            validate_state_values()
-
             if "id" in body:
                 task_found["id"] = body["id"]
             if "title" in body:
@@ -150,6 +157,7 @@ def update_task(task_id):
             if "description" in body:
                 task_found["description"] = body["description"]
             if "state" in body:
+                validate_state_values()
                 task_found["state"] = body["state"]
 
             write_json_file('tasks.json', tasks_list)
