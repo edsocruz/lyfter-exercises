@@ -102,7 +102,7 @@ select * from Users_Cars;
 
 
 --Un script que cambie el estado de un usuario
-update Users set account_status = true where id = 51;
+update Users set account_status = 'active' where id = 51;
 
 --Un script que cambie el estado de un automovil
 update Cars set status = 'available' where id = 4;
@@ -112,7 +112,7 @@ DO $$
 declare
 	--variables
 	v_user_id INTEGER;
-	v_user_status boolean;
+	v_user_status varchar;
 	v_car_id INTEGER;
 	v_car_status varchar;
 	v_return_date date;
@@ -134,7 +134,7 @@ begin
 		select status into v_car_status from Cars c where c.id = v_car_id;
 		
 		-- Ahora debemos validar que se encuentran disponibles para hacer el alquiler del carro 
-		IF not v_user_status then raise exception 'El usuario con el id(%) esta inactivo', v_user_id; -- acá v_user_status es un boolean 
+		IF not v_user_status = 'active' then raise exception 'El usuario con el id(%) esta inactivo o moroso', v_user_id; -- acá v_user_status es un boolean 
 		END IF;
 		if not v_car_status = 'available' then raise 'El carro con el id(%) no esta disponible para ser alquilado', v_car_id;
 		END IF;
@@ -168,7 +168,7 @@ begin
 	-- Devolver un carro implica:
 	--	cambiar el status del carro a maintenance (maintenance/unavailable -> available -> rented)
 	select id_car into v_car_id from Users_Cars uc where uc.id = v_rental_id; --obtenemos el id del carro asociado al alquiler
-	update Cars c set status = 'maintenance' where c.id = v_rental_id;
+	update Cars c set status = 'maintenance' where c.id = v_car_id;
 	--	cambiar el status de la renta a completada
 	update Users_Cars set rental_status = 'completed' where id = v_rental_id;
 end $$;

@@ -271,18 +271,12 @@ def show_users():
             filter(lambda item: item["birth_date"] == birth_date_filter, filtered_users))
     
     if (request.args.get("account_status")):
-        status = request.args.get("account_status").strip().lower()
-        #Este cambio es para poder validar los campos booleanos ya que lo que viene en el diccionario son los trings de true o false, si tratamos un string como un bool el resultado será true ya que el hecho que hayan caracteres se interpreta como positivo, para que sea false el string debe ser vacio, caso que no ocurre 
-        if status == "true":
-            account_status_filter = True
-        elif status == "false":
-            account_status_filter = False
-        else:
-            return {"error": "account_status debe ser 'true' o 'false'"}, 400
-
+        status = request.args.get("account_status")
+        if (not status == 'active') and (not status == 'inactive') and (not status == 'arrears'):
+            return {"error": "account_status debe ser 'active', 'inactive' o 'arrears'"}, 400
         filtered_users = list(
             filter(
-                lambda item: item["account_status"] == account_status_filter,filtered_users
+                lambda item: item["account_status"] == status,filtered_users
                 )
             )
     #Si los parametros existen entonces la lista se va a ir reduciendo, dejando unicamente los resultados que cumplan los filtros
@@ -318,7 +312,6 @@ def show_cars():
 
     if (request.args.get("status")):
         status_filter = request.args.get("status").strip().lower()
-        #Este cambio es para poder validar los campos booleanos ya que lo que viene en el diccionario son los trings de true o false, si tratamos un string como un bool el resultado será true ya que el hecho que hayan caracteres se interpreta como positivo, para que sea false el string debe ser vacio, caso que no ocurre 
         if (not status_filter == "rented") and (not status_filter == 'available') and (not status_filter == 'maintenance') and (not status_filter == 'unavailable'):
             return {"error": "status_filter debe ser 'rented' o 'available' o 'maintenance' o 'unavailable'"}, 400
         else:
@@ -356,8 +349,7 @@ def show_rents():
             filter(lambda item: item["return_date"] == production_year_filter, filtered_rents))
 
     if (request.args.get("rental_status")):
-        rental_status_filter = request.args.get("rental_status").strip().lower()
-        #Este cambio es para poder validar los campos booleanos ya que lo que viene en el diccionario son los trings de true o false, si tratamos un string como un bool el resultado será true ya que el hecho que hayan caracteres se interpreta como positivo, para que sea false el string debe ser vacio, caso que no ocurre 
+        rental_status_filter = request.args.get("rental_status")
         if (not rental_status_filter == "active") and (not rental_status_filter == 'completed'):
             return {"error": "rental_status_filter debe ser 'active' o 'completed'"}, 400
         else: 

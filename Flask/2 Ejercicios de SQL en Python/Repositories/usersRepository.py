@@ -20,7 +20,8 @@ class UserRepository:
                 (full_name, email, username, password, birth_date, account_status),
             )
             print("\033[32mUser inserted successfully\033[0m")
-            return (result)
+            formatted_results = [self._format_user(result) for result in result]
+            return formatted_results
         except Exception as error:
             print("\033[31mError inserting a user into the database: \033[0m", error)
             return None

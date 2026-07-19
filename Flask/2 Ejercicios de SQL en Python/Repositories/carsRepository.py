@@ -20,7 +20,8 @@ class CarsRepository:
                 (brand, model, production_year, status),
             )
             print("Car inserted successfully")
-            return result
+            formatted_results = [self._format_car(result) for result in result]
+            return formatted_results
         except Exception as error:
             print("Error inserting a car into the database: ", error)
             return False
