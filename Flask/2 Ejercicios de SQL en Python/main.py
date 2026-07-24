@@ -336,12 +336,12 @@ def show_rents():
     if (request.args.get("id_user")): 
         id_user_filter = request.args.get("id_user")  
         filtered_rents = list(
-            filter(lambda item: item["id_user"] == id_user_filter, filtered_rents))
+            filter(lambda item: item["id_user"] == int(id_user_filter), filtered_rents))
     
     if (request.args.get("id_car")):  
         model_filter = request.args.get("id_car")
         filtered_rents = list(
-            filter(lambda item: item["id_car"] == model_filter, filtered_rents))
+            filter(lambda item: item["id_car"] == int(model_filter), filtered_rents))
     
     if (request.args.get("return_date")):
         production_year_filter = request.args.get("return_date")  

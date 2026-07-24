@@ -19,7 +19,8 @@ class RentRepository:
                 (id_user, id_car, return_date, rental_status),
             )
             print("Rent inserted successfully")
-            return rent_created
+            formatted_results = [self._format_rents(rent_created) for rent_created in rent_created]
+            return formatted_results
         except Exception as error:
             print("Error inserting a rent into the database: ", error)
             return False
@@ -55,7 +56,8 @@ class RentRepository:
                 (id_user, id_car, return_date, rental_status, _id),
             )
             print("Rent updated successfully")
-            return rent_updated
+            formatted_results = [self._format_rents(rent_updated) for rent_updated in rent_updated]
+            return formatted_results
         except Exception as error:
             print("Error updating a rent from the database: ", error)
             return False

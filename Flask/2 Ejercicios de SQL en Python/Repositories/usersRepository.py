@@ -56,7 +56,8 @@ class UserRepository:
                 (full_name, email, username, password, birth_date, account_status, _id),
             )
             print("User updated successfully")
-            return data_updated
+            formatted_results = [self._format_user(data_updated) for data_updated in data_updated]
+            return formatted_results
         except Exception as error:
             print("\033[31mError updating a user from the database: \033[0m", error)
             return None
