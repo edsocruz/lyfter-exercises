@@ -1,5 +1,5 @@
 from sqlalchemy import String, Integer, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from Model.base import Base
 
 #Direcciones 
@@ -12,3 +12,5 @@ class Address(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     address: Mapped[str] = mapped_column(String(30))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+
+    user: Mapped["User"] = relationship("User", back_populates="addresses")

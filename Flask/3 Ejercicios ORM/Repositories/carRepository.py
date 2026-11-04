@@ -1,4 +1,5 @@
 from Model.cars import Car
+from Model.users import User
 from sqlalchemy import select
 
 class CarRepository:
@@ -11,26 +12,33 @@ class CarRepository:
             brand = brand,
             model = model,
             year = year, 
-            user_id = user
+            owner = user
         )
         self.session.add(car)
         self.session.commit()
         return car
     
-    def update(self, id,plate,brand,model,year,user_id):
+    def update(self, id,plate,brand,model,year,user):
         car = self.session.get(Car, id)
-        car.id = id
-        car.plate = plate
-        car.brand = brand
-        car.model = model
-        car.year = year
-        car.user_id = user_id
-        self.session.commit()
-        return car
+        if car is None:
+            return None
+        else:
+            car.id = id
+            car.plate = plate
+            car.brand = brand
+            car.model = model
+            car.year = year
+            car.owner = user
+            self.session.commit()
+            return car
 
-    def link_a_user(self, id,user_id):
-        car = self.session.get(Car, id)
-        car.user_id = user_id
+    def link_user(self, car_id,user):
+        car = self.session.get(Car, car_id)
+        
+        if car is None or user is None:
+            return None
+        
+        car.owner = user
         self.session.commit()
         return car
     
@@ -41,12 +49,13 @@ class CarRepository:
     
     def delete(self, car_id):
         car = self.session.get(Car, car_id)
-        if car:
-            deleted_car = self.session.delete(car)
-            self.session.commit()
-            return deleted_car
-        else: 
+        if car is None:
             return "El recurso solicitado no existe en el sistema"
+        else:
+            self.session.delete(car)
+            self.session.commit()
+            return car
+
     
     def get(self, car_id):
         car = self.session.get(Car, car_id)

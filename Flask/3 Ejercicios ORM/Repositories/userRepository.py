@@ -16,10 +16,14 @@ class UserRepository:
 
     def update(self, user_id, new_name, new_email):
         user = self.session.get(User, user_id)
-        user.name = new_name
-        user.email = new_email
-        self.session.commit()
-        return user
+
+        if user is None or new_name is None or new_email is None:
+            return None
+        else:        
+            user.name = new_name
+            user.email = new_email
+            self.session.commit()
+            return user
 
     def select(self):
         query = select(User).order_by(User.id.asc())
@@ -28,12 +32,13 @@ class UserRepository:
 
     def delete(self, user_id):
         user = self.session.get(User, user_id)
-        if user:
-            deleted_user = self.session.delete(user)
+        if user is None:
+            print("El recurso solicitado no existe en el sistema")
+            return None
+        else:
+            self.session.delete(user)
             self.session.commit()
-            return deleted_user
-        else: 
-            return "El recurso solicitado no existe en el sistema"
+            return user
     
     def get(self, user_id):
         user = self.session.get(User, user_id)
