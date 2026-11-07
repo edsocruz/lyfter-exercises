@@ -34,10 +34,10 @@ class AddressRepository:
     def delete(self, address_id):
         address = self.session.get(Address, address_id)
         if address is None:
-            return "El recurso solicitado no exite en el sistema"
+            print("El recurso solicitado no existe en el sistema")
+            return None
         else:
             self.session.delete(address)
             self.session.commit()
             return address
-            
 

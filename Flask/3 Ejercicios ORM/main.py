@@ -50,43 +50,11 @@ except Exception as e:
 # - Nombre
 # - Correo
 
-
-#metadata_obj = MetaData()
-#
-#users_table = Table(
-#    "users", metadata_obj,
-#    Column("id", Integer, primary_key=True),
-#    Column("name", String(30), nullable=False),
-#    Column("email", String(30), nullable=False),
-#)
-#
-##Column("",),
-#
-#addresses_table = Table(
-#    "addresses", metadata_obj,
-#    Column("id", Integer, primary_key=True),
-#    Column("address", String(40), nullable=False),
-#    Column("user_id", ForeignKey("users.id"), nullable=False)
-#)
-#
-#cars_table = Table(
-#    "cars", metadata_obj,
-#    Column("id", Integer, primary_key=True),
-#    Column("plate", String(6), nullable=False),
-#    Column("brand", String(10), nullable=False),
-#    Column("model", String(10), nullable=False),
-#    Column("year", Integer, nullable=False),
-#    Column("user_id", ForeignKey("users.id"), nullable=True)
-#)
-# #Lo anterior es utilizando SQLAlchemy Core, para hacer lo mismo usando la clase Base, se debe cambiar a:
 from Model.base import Base
 from Model.users import User
 from Model.cars import Car
 from Model.addresses import Address
 #Se importan todas las clases que se van a crear en el metadata
-# Eliminar las tablas existentes
-Base.metadata.drop_all(engine)
-
 
 Base.metadata.create_all(engine)
 print(Base.metadata.tables.keys())

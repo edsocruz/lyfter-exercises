@@ -50,7 +50,8 @@ class CarRepository:
     def delete(self, car_id):
         car = self.session.get(Car, car_id)
         if car is None:
-            return "El recurso solicitado no existe en el sistema"
+            print("El recurso solicitado no existe en el sistema")
+            return None
         else:
             self.session.delete(car)
             self.session.commit()
