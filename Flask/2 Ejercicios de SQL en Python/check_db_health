@@ -1,0 +1,59 @@
+import psycopg2
+
+def check_database_health():
+
+    connection = None
+    cursor = None
+
+    try:
+        connection = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="postgres",
+            host="localhost",
+            port=5432
+        )
+
+        cursor = connection.cursor()
+        # validamos que existan las tablas
+        tables = ["Users","Cars","Users_Cars"]
+
+        for table in tables:
+            cursor.execute( #el select se hace son solo un elemento porque queremos validar si hay al menos uno
+                """
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM information_schema.tables
+                    WHERE table_schema = 'lyfter_car_rental'
+                    AND table_name = %s
+                );
+                """,
+                (table.lower(),)#acá el nombre de la tabla se pasa a minuscula, postgres usa los nombres de las tablas en minuscula, la coma adicional es para crear una tupla de un solo elemento y para que psycopg2 sustituya el %s
+            )
+            exists = cursor.fetchone()[0] #el resultado queda almacenado en el cursor, fetchone devuelve una fila y fetchall devuelve todos, pero lo que se devuelve es una tupla, por eso se hace el [0]  
+            if not exists:
+                return f"DB ERROR. La tabla {table} no existe"
+
+        # validamos que exista al menos un carro disponible
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM lyfter_car_rental.Cars
+            WHERE status = 'available';
+            """
+        )
+        available_cars = cursor.fetchone()[0]
+        if available_cars == 0:
+            return "DB ERROR. No hay carros disponibles"
+        return "DB funciona correctamente "
+
+    except Exception as error:
+        return f"DB error. {error}"
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+result = check_database_health()
+print(result)
