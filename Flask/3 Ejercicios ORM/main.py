@@ -74,7 +74,7 @@ from Repositories.carRepository import CarRepository
 
 with Session(engine) as session:
 
-    print("----------------------------------Users")
+    print("-------------------------------------------------------------------- Users")
 
     user_repository = UserRepository(session) # EL repository siempre recibe la sesion
 
@@ -93,17 +93,18 @@ with Session(engine) as session:
     for user in users:
         print(user.id, user.name, user.email)
 
+    print("-------------------------------------------------------------------- Update user")
     #Update a user
     user_updated = user_repository.update(2,'Sara Patricia', "sardimar@gmail.com")
     print(user_updated.id, user_updated.name ,user_updated.email)
 
+    print("-------------------------------------------------------------------- Delete user")
     #Delete a user 
     deleted_user = user_repository.delete(8)
-    print(deleted_user.id, deleted_user.name ,deleted_user.email)
 
 
 
-    print("----------------------------------Addresses")
+    print("-------------------------------------------------------------------- Addresses")
     address_repository = AddressRepository(session)
     # Create an address
     address_repository.create('Heredia',user_repository.get(1))
@@ -119,52 +120,83 @@ with Session(engine) as session:
     addresses = address_repository.select()
     for address in addresses:
         print([address.id, address.address, address.user_id, address.user.name])
-    
+
+    addresses_filtered = address_repository.select_addresses_filtered_by_word("San")
+    print("-------------------------------------------------------------------- Addresses filtered by word 'San'")
+    for address in addresses_filtered:
+        print([address.id, address.address, address.user_id, address.user.name])
+
+    print("-------------------------------------------------------------------- Delete addresses")
     #Delete an address
     address_repository.delete(8)
-    
+
+
+    print("-------------------------------------------------------------------- Update addresses")
     #Update an address
     updated_address = address_repository.update(7,"San Pablo", user_repository.get(6))
     print([updated_address.id, updated_address.address, updated_address.user_id, updated_address.user.name])
 
 
-    print("-------------------------------------------------------------------tengo que corregir estos de carros")
     car_repository = CarRepository(session)
     #Create a Car
     user_obj = user_repository.get(4)
-    created_car = car_repository.create('DOD330', 'Dodge', 'Durango', 2027)
-    created_car = car_repository.create('DOD331', 'Dodge', 'Challenger', 2026)
-    created_car = car_repository.create('DOD332', 'Dodge', 'Charger', 2025)
-    created_car = car_repository.create('DOD430', 'Jeep', 'Wrangler', 2027)
-    created_car = car_repository.create('DOD431', 'Jeep', 'Wagoneer S', 2026)
-    created_car = car_repository.create('DOD432', 'Jeep', 'Cherokee', 2025)
-
+    car_repository.create('DOD330', 'Dodge', 'Durango', 2027)
+    car_repository.create('DOD331', 'Dodge', 'Challenger', 2026)
+    car_repository.create('DOD332', 'Dodge', 'Charger', 2025)
+    car_repository.create('DOD430', 'Jeep', 'Wrangler', 2027)
+    car_repository.create('DOD431', 'Jeep', 'Wagoneer S', 2026)
+    car_repository.create('DOD432', 'Jeep', 'Cherokee', 2025)
+    car_repository.create('DOD439', 'Jeep', 'Cherokee', 2025, user_repository.get(3))
+    car_repository.create('DOD438', 'Jeep', 'Cherokee Black', 2025, user_repository.get(3))
+    car_repository.create('DOD437', 'Jeep', 'Cherokee Red', 2025, user_repository.get(3))
+    car_repository.create('DOD436', 'Jeep', 'Cherokee Green', 2025, user_repository.get(1))
 
     #Select cars
     cars = car_repository.select()
-    print("----------------------------------Cars")
+    print("-------------------------------------------------------------------- Cars")
     for item in cars:
+        print(item.id, item.plate, item.brand, item.model, item.year, item.owner.name if item.owner else None)
+
+    cars_without_owner = car_repository.select_cars_without_owner()
+    print("-------------------------------------------------------------------- Cars without owner")
+    for item in cars_without_owner:
         print(item.id, item.plate, item.brand, item.model, item.year)
-    
+
+    print("-------------------------------------------------------------------- Update cars")
     #Update Car
     updated_car = car_repository.update(1,'XYZ098', 'BYD', 'Seagull', 2025, user_obj)
     print([updated_car.id, updated_car.plate, updated_car.brand, updated_car.model, updated_car.year, updated_car.owner.id, updated_car.owner.name])
 
 
+    print("-------------------------------------------------------------------- Link Car-user")
     #Link Car-user
     updated_car = car_repository.link_user(6, user_obj)
     print([updated_car.id, updated_car.plate, updated_car.brand, updated_car.model, updated_car.year, updated_car.owner.id, updated_car.owner.name])
 
+
+    print("-------------------------------------------------------------------- Delete cars")
     #Delete Car
     car_repository.delete(5)
-
     
-    print("----------------------------------")
+    print("--------------------------------------------------------------------")
     print("Nombre de usuario: ",user_obj.name)
     print("Carros: ")
     for car in user_obj.cars:
         print(car.brand, car.model, car.year)
-    print("----------------------------------")
+    print("--------------------------------------------------------------------")
     print("Direcciones")
     for address in user_obj.addresses:
         print(address.address)
+
+
+    users_with_more_than_one_car = user_repository.select_users_with_more_than_one_car()
+    print("-------------------------------------------------------------------- Users with more than one car")
+    for user in users_with_more_than_one_car:
+        print(user.id, user.name, user.email)
+
+    user_addresses, user_cars = user_repository.select_all_addresses_and_cars_of_user(3)
+    print("-------------------------------------------------------------------- User addresses and cars of user with id 3")
+    for address in user_addresses:
+        print([address.id, address.address, address.user_id, address.user.name])
+    for car in user_cars:
+        print([car.id, car.plate, car.brand, car.model, car.year, car.user_id, car.owner.name])

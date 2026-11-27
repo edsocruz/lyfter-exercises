@@ -31,6 +31,11 @@ class AddressRepository:
         addresses = self.session.scalars(query).all()
         return addresses
 
+    def select_addresses_filtered_by_word(self, word): #el ilike es para que no sea case sensitive 
+        query = select(Address).where(Address.address.ilike(f"%{word}%")).order_by(Address.id.asc()) #para buscar texto en cualquier parte de la columna, se utiliza la combinacion %word%.
+        addresses_filtered = self.session.scalars(query).all()
+        return addresses_filtered
+
     def delete(self, address_id):
         address = self.session.get(Address, address_id)
         if address is None:

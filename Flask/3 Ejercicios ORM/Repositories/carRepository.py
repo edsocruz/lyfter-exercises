@@ -46,6 +46,12 @@ class CarRepository:
         query = select(Car).order_by(Car.id.asc())
         cars = self.session.scalars(query).all()
         return cars
+
+    def select_cars_without_owner(self):
+        query = select(Car).where(Car.owner == None).order_by(Car.id.asc())
+        cars_without_owner = self.session.scalars(query).all()
+        return cars_without_owner
+    
     
     def delete(self, car_id):
         car = self.session.get(Car, car_id)
